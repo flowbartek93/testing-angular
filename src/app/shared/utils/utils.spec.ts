@@ -14,9 +14,9 @@ describe('utils', () => {
   describe('pluuck', () => {
     const data = [
       { id: '1', name: 'foo' },
-      { id: '2', name: 'jebac' },
-      { id: '3', name: 'pedala' },
-      { id: '4', name: 'jebanego kurwa' },
+      { id: '2', name: 'nie' },
+      { id: '3', name: 'przeklinaj' },
+      { id: '4', name: 'bo to nie ladnie' },
     ];
 
     it('must return sth', () => {
