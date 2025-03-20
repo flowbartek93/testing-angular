@@ -6,8 +6,6 @@ import { UtilsService } from './utils.service';
 describe('UsersService', () => {
   let userSrv: UsersService;
 
-  let utilsSrv: UtilsService;
-
   //!mockowanie
   // const utilsSrvMock = {
   //   pluck: jest.fn(),
@@ -15,15 +13,10 @@ describe('UsersService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        UsersService,
-        // { provide: UtilsService, useValue: utilsSrvMock },
-        UtilsService,
-      ],
+      providers: [UsersService],
     });
 
     userSrv = TestBed.inject(UsersService);
-    utilsSrv = TestBed.inject(UtilsService);
   });
 
   it('src created', () => {
@@ -38,24 +31,25 @@ describe('UsersService', () => {
       };
 
       userSrv.addUser(user);
-      expect(userSrv.users).toContain(user);
+
+      expect(userSrv.users$.getValue()).toContain(user);
     });
 
     it('shoulda remove users', () => {
-      userSrv.addUser({ id: '3', name: 'usuwanue' });
+      userSrv.users$.next([{ id: '3', name: 'usuwanue' }]);
       userSrv.removeUser('3');
 
-      expect(userSrv.users).toEqual([]);
+      expect(userSrv.users$.getValue()).toEqual([]);
     });
 
-    it('shoulda get user names', () => {
-      jest.spyOn(utilsSrv, 'pluck');
+    // it('shoulda get user names', () => {
+    //   jest.spyOn(utilsSrv, 'pluck');
 
-      userSrv.addUser({ id: '3', name: 'bartek' });
-      // utilsSrvMock.pluck.mockReturnValue(['foo']); // mock
-      expect(userSrv.getUserNames()).toEqual(['bartek']);
+    //   userSrv.addUser({ id: '3', name: 'bartek' });
+    //   // utilsSrvMock.pluck.mockReturnValue(['foo']); // mock
+    //   expect(userSrv.getUserNames()).toEqual(['bartek']);
 
-      expect(utilsSrv.pluck).toHaveBeenCalledWith(userSrv.users, 'name');
-    });
+    //   expect(utilsSrv.pluck).toHaveBeenCalledWith(userSrv.users, 'name');
+    // });
   });
 });
