@@ -17,7 +17,6 @@ export class FooterComponent {
     return this.todosService.todosSig().filter((todo) => !todo.isCompleted)
       .length;
   });
-
   noTodosClass = computed(() => this.todosService.todosSig().length === 0);
   itemsLeftText = computed(
     () => `item${this.activeCount() !== 1 ? 's' : ''} left`

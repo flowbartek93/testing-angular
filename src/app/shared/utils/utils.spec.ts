@@ -2,31 +2,22 @@ import { pluck, range } from './utils';
 
 describe('utils', () => {
   describe('range', () => {
-    it('range test', () => {
+    it('returns correct range from 1 to 5', () => {
       expect(range(1, 5)).toEqual([1, 2, 3, 4]);
     });
-
-    it('is Array', () => {
-      expect(Array.isArray(range(1, 5))).toBe(true);
+    it('returns correct range from 41 to 44', () => {
+      expect(range(41, 44)).toEqual([41, 42, 43]);
     });
   });
 
-  describe('pluuck', () => {
-    const data = [
-      { id: '1', name: 'foo' },
-      { id: '2', name: 'nie' },
-      { id: '3', name: 'przeklinaj' },
-      { id: '4', name: 'bo to nie ladnie' },
-    ];
-
-    it('must return sth', () => {
-      expect(pluck(data, 'name').length).toBeGreaterThan(0);
-    });
-
-    it('must return array of strings', () => {
-      expect(
-        pluck(data, 'name').every((item) => typeof item === 'string')
-      ).toBe(true);
+  describe('pluck', () => {
+    it('returns correct result', () => {
+      const data = [
+        { id: '1', name: 'foo' },
+        { id: '2', name: 'bar' },
+        { id: '3', name: 'baz' },
+      ];
+      expect(pluck(data, 'id')).toEqual(['1', '2', '3']);
     });
   });
 });

@@ -5,40 +5,39 @@ import { By } from '@angular/platform-browser';
 describe('ErrorMessageComponent', () => {
   let component: ErrorMessageComponent;
   let fixture: ComponentFixture<ErrorMessageComponent>;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ErrorMessageComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ErrorMessageComponent);
-
-    fixture.detectChanges();
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  it('creates error comp', () => {
-    expect(component).toBeTruthy;
+  it('creates component', () => {
+    expect(component).toBeTruthy();
   });
 
   it('renders default error state', () => {
-    const msgContainer = fixture.debugElement.query(
+    const messageContainer = fixture.debugElement.query(
       By.css('[data-testid="message-container"]')
     );
 
-    expect(msgContainer.nativeElement.textContent).toEqual(
+    expect(messageContainer.nativeElement.textContent).toEqual(
       'Something went wrong'
     );
   });
 
-  it('redners custom error message', () => {
-    component.message = 'Emial is taken';
+  it('renders custom error message', () => {
+    component.message = 'Email is already taken';
     fixture.detectChanges();
 
-    const msgContainer = fixture.debugElement.query(
+    const messageContainer = fixture.debugElement.query(
       By.css('[data-testid="message-container"]')
     );
-
-    expect(msgContainer.nativeElement.textContent).toEqual('Emial is taken');
+    expect(messageContainer.nativeElement.textContent).toEqual(
+      'Email is already taken'
+    );
   });
 });

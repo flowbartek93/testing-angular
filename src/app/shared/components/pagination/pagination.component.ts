@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { UtilsService } from '../../shared/utils/services/utils.service';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'mc-pagination',
@@ -24,7 +24,6 @@ export class PaginationComponent implements OnInit {
 
   ngOnInit(): void {
     this.pagesCount = Math.ceil(this.total / this.limit);
-
     this.pages =
       this.pagesCount > 0
         ? this.utilsService.range(1, this.pagesCount + 1)

@@ -5,5 +5,3 @@ export const range = (start: number, end: number): number[] => {
 export const pluck = (elements: any[], field: string) => {
   return elements.map((el) => el[field]);
 };
-
-///test
