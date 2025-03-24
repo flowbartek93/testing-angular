@@ -17,77 +17,102 @@ describe('FooterComponent', () => {
 
     fixture = TestBed.createComponent(FooterComponent);
     component = fixture.componentInstance;
+
     todosService = TestBed.inject(TodosService);
     fixture.detectChanges();
   });
 
-  it('creates a component', () => {
-    expect(component).toBeTruthy();
-  });
-
   describe('component visibility', () => {
-    it('should be hidden when no todos', () => {
+    it('should be hidden when no todo', () => {
       const footer = fixture.debugElement.query(
-        By.css('[data-testid="footer"]')
+        By.css('  [data-testid="footer"]')
       );
+
       expect(footer.classes['hidden']).toEqual(true);
     });
 
-    it('should be visible with todos', () => {
-      todosService.todosSig.set([{ id: '1', text: 'foo', isCompleted: false }]);
+    it('should be visible when there is todo', () => {
+      //ustawiam sygnal
+      todosService.todosSig.set([
+        { id: '1,', text: 'foo', isCompleted: false },
+      ]);
+
+      //odpalamy detectChanges bo zmienilismy stan i w writualnym DOM to już jest
       fixture.detectChanges();
+
       const footer = fixture.debugElement.query(
-        By.css('[data-testid="footer"]')
+        By.css('  [data-testid="footer"]')
       );
+
       expect(footer.classes['hidden']).not.toBeDefined();
     });
   });
 
   describe('counters', () => {
     it('renders counter for 1 todo', () => {
-      todosService.todosSig.set([{ id: '1', text: 'foo', isCompleted: false }]);
+      todosService.todosSig.set([
+        { id: '1,', text: 'foo', isCompleted: false },
+      ]);
+
       fixture.detectChanges();
+
       const todoCount = fixture.debugElement.query(
-        By.css('[data-testid="todoCount"]')
+        By.css('  [data-testid="todoCount"]')
       );
+
       expect(todoCount.nativeElement.textContent).toContain('1 item left');
     });
 
-    it('renders counter for 2 todos', () => {
+    it('renders counter for 2 todo', () => {
       todosService.todosSig.set([
-        { id: '1', text: 'foo', isCompleted: false },
-        { id: '2', text: 'bar', isCompleted: false },
+        { id: '1,', text: 'foo', isCompleted: false },
+        { id: '2,', text: 'asdasdasd', isCompleted: false },
       ]);
+
       fixture.detectChanges();
+
       const todoCount = fixture.debugElement.query(
         By.css('[data-testid="todoCount"]')
       );
+
       expect(todoCount.nativeElement.textContent).toContain('2 items left');
     });
   });
 
   describe('filters', () => {
     it('highlights default filter', () => {
-      const filterLinks = fixture.debugElement.queryAll(
+      const filters = fixture.debugElement.queryAll(
         By.css('[data-testid="filterLink"]')
       );
-      expect(filterLinks[0].classes['selected']).toBe(true);
+
+      // todosService.filterSig.set(FilterEnum.all);
+
+      const defaultFilterAll = filters[0].classes['selected'];
+
+      expect(defaultFilterAll).toBe(true);
     });
 
     it('highlights changed filter', () => {
-      todosService.filterSig.set(FilterEnum.active);
-      fixture.detectChanges();
-      const filterLinks = fixture.debugElement.queryAll(
+      const filters = fixture.debugElement.queryAll(
         By.css('[data-testid="filterLink"]')
       );
-      expect(filterLinks[1].classes['selected']).toBe(true);
+
+      todosService.filterSig.set(FilterEnum.active);
+
+      fixture.detectChanges();
+
+      const active = filters[1].classes['selected'];
+
+      expect(active).toBe(true);
     });
 
     it('changes a filter', () => {
-      const filterLinks = fixture.debugElement.queryAll(
+      const filters = fixture.debugElement.queryAll(
         By.css('[data-testid="filterLink"]')
       );
-      filterLinks[1].triggerEventHandler('click');
+
+      filters[1].triggerEventHandler('click');
+
       expect(todosService.filterSig()).toBe(FilterEnum.active);
     });
   });
